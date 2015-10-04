@@ -1,6 +1,6 @@
-# bruteforce
+# Bruteforce Database - Password dictionaries
 
-Bruteforce database. 
+A Password dictionaries. 
 
 * **Wordlist.lst** sorting only passwords with more than 8 characters, removed all numeric passes, removed consecutive characters (3 characters or more), removed all lowercase passwords, passwords without a capital letter and also a number (61.682 password).
 * **Mangle.lst** it consists of passwords 7 characters or more, and numeric passwords removed (52.8136 passwords).
