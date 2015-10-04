@@ -6,7 +6,7 @@ Bruteforce database.
 * **Mangle.lst** is slightly different, it consists of passwords 7 characters or more, and numeric passwords removed (52.8136 passwords).
 * **1000000_password_seclists.txt** 1.000.000 password from <a href="https://github.com/danielmiessler/SecLists">SecLists</a>
 * **bitcoin-brainwallet.lst** bitcoin-brainwallet with 394748 lines
-* **english-names.txt** collection names of human at US - 11606 words
+* **english-names.txt** collection username of/at US - 11606 words
 
 
 # Contact
