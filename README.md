@@ -5,8 +5,8 @@ Bruteforce database.
 * **Wordlist.lst** I made by sorting only passwords with more than 8 characters, removed all numeric passes, removed consecutive characters (3 characters or more), removed all lowercase passwords, passwords without a capital letter and also a number (61.682 password).
 * **Mangle.lst** is slightly different, it consists of passwords 7 characters or more, and numeric passwords removed (52.8136 passwords).
 * **1000000_password_seclists.txt** 1.000.000 password from <a href="https://github.com/danielmiessler/SecLists">SecLists</a>
-* **bitcoin-brainwallet.lst** bitcoin-brainwallet with 394748 lines
-* **english-names.txt** collection username of/at US - 11606 words
+* **bitcoin-brainwallet.lst** bitcoin-brainwallet with 394.748 lines
+* **usernames.txt** collection username of/at US - 403.355 lines
 * **us-cities.txt** list 20.580 cities at US
 
 
