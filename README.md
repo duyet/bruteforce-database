@@ -8,6 +8,7 @@ Bruteforce database.
 * **bitcoin-brainwallet.lst** bitcoin-brainwallet with 394.748 lines
 * **usernames.txt** collection username of/at US - 403.355 lines
 * **us-cities.txt** list 20.580 cities at US
+* **facebook-firstnames.txt** 4.347.667 of Facebook firstnames.
 
 
 # Contact
