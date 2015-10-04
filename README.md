@@ -7,6 +7,7 @@ Bruteforce database.
 * **1000000_password_seclists.txt** 1.000.000 password from <a href="https://github.com/danielmiessler/SecLists">SecLists</a>
 * **bitcoin-brainwallet.lst** bitcoin-brainwallet with 394748 lines
 * **english-names.txt** collection username of/at US - 11606 words
+* **us-cities.txt** list 20.580 cities at US
 
 
 # Contact
