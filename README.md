@@ -22,7 +22,14 @@ A Password dictionaries.
 1. Fork the project on Github
 2. Create a topic branch for your changes
 3. Ensure that you provide documentation and test coverage for your changes (patches won’t be accepted without)
-4. Create a pull request on Github (these are also a great place to start a conversation around a patch as early as possible)
+4. If the project contains a `package.json` or a `bower.json` file add yourself in the contributors array (or `authors` in the case of `bower.json`; if the array does not exist, create it):
+`{
+  "contributors": [
+     "Your Name <and@email.address> (http://your.website)"
+  ]
+}`
+
+5. Create a pull request on Github (these are also a great place to start a conversation around a patch as early as possible)
 
 # License
 MIT License
