@@ -10,6 +10,7 @@ A Password dictionaries.
 * **us-cities.txt** list 20.580 cities at US
 * **facebook-firstnames.txt** 4.347.667 of Facebook firstnames.
 * **2151220-passwords.txt** 2.151.220 passwords from dazzlepod.com
+* **subdomains-10000.txt** 10.000 subdomain for domain scanner.
 
 <img src="http://2.bp.blogspot.com/-DBFErnG-8AE/VhJ-z3Y-41I/AAAAAAAADgA/FGCt8naBMKs/s1600/mtyourmind.10001mb.com.png" />
 
