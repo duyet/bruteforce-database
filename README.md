@@ -12,6 +12,7 @@ A Password dictionaries.
 * **2151220-passwords.txt** 2.151.220 passwords from dazzlepod.com
 * **subdomains-10000.txt** 10.000 subdomain for domain scanner.
 * **38650-password-sktorrent.txt** 38.650 passwords from sktorrent.eu.
+* **indo-cities.txt** list 102 cities at Indonesia
 
 <img src="http://2.bp.blogspot.com/-DBFErnG-8AE/VhJ-z3Y-41I/AAAAAAAADgA/FGCt8naBMKs/s1600/mtyourmind.10001mb.com.png" />
 
