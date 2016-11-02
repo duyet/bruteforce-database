@@ -32,6 +32,9 @@ A Password dictionaries.
 
 4. Create a pull request on Github (these are also a great place to start a conversation around a patch as early as possible)
 
+# Contributer
+
+* [Van-Duyet Le](https://github.com/duyetdev)
 
 # Contact
 * Van-Duyet Le (#duyetdev) 
