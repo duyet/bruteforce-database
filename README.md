@@ -13,6 +13,7 @@ A Password dictionaries.
 * **subdomains-10000.txt** 10.000 subdomain for domain scanner.
 * **38650-password-sktorrent.txt** 38.650 passwords from sktorrent.eu.
 * **uniqpass_v16_password.txt** [UNIQPASS](http://dazzlepod.com/uniqpass/) is a large password list for use with John the Ripper (JtR) wordlist mode to translate large number of hashes, e.g. MD5 hashes, into cleartext passwords
+* **indo-cities.txt** list 102 cities at Indonesia
 
 <img src="http://2.bp.blogspot.com/-DBFErnG-8AE/VhJ-z3Y-41I/AAAAAAAADgA/FGCt8naBMKs/s1600/mtyourmind.10001mb.com.png" />
 
