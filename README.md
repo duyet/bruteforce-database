@@ -35,6 +35,7 @@ A Password dictionaries.
 # Contributers
 
 * Van-Duyet Le - [**@duyetdev**](https://github.com/duyetdev)
+* Taufiq Sumadi - [**@taufiqsumadi**](https://github.com/taufiqsumadi)
 
 # Contact
 * Van-Duyet Le (#duyetdev) 
