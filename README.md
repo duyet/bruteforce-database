@@ -41,8 +41,8 @@ A Password dictionaries.
 
 # Contact
 * Van-Duyet Le (@duyetdev) 
-* Email: me(a)duyetdev.com
-* Website: http://blog.duyetdev.com 
+* Email: me(a)duyet.net
+* Website: https://duyet.net 
 
 # License
 MIT License
