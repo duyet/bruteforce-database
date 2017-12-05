@@ -15,6 +15,7 @@ A Password dictionaries.
 * **uniqpass_v16_password.txt** [UNIQPASS](http://dazzlepod.com/uniqpass/) is a large password list for use with John the Ripper (JtR) wordlist mode to translate large number of hashes, e.g. MD5 hashes, into cleartext passwords
 * **indo-cities.txt** list 102 cities at Indonesia
 * **38650-username-sktorrent.txt** 38.650 usernames from sktorrent.eu.
+* **forced-browsing** every wordlist you need for forced browsing
 
 <img src="http://2.bp.blogspot.com/-DBFErnG-8AE/VhJ-z3Y-41I/AAAAAAAADgA/FGCt8naBMKs/s1600/mtyourmind.10001mb.com.png" />
 
@@ -38,6 +39,7 @@ A Password dictionaries.
 * Van-Duyet Le - [**@duyetdev**](https://github.com/duyetdev)
 * Taufiq Sumadi - [**@taufiqsumadi**](https://github.com/taufiqsumadi)
 * San Sayidul Akdam Augusta - [**@sanAkdam**](https://github.com/sanAkdam)
+* Dani Vijay - [**@danivijay**](https://github.com/danivijay)
 
 # Contact
 * Van-Duyet Le (@duyetdev) 
