@@ -19,8 +19,10 @@ A Password dictionaries.
 
 <img src="http://2.bp.blogspot.com/-DBFErnG-8AE/VhJ-z3Y-41I/AAAAAAAADgA/FGCt8naBMKs/s1600/mtyourmind.10001mb.com.png" />
 
-# Support
-<a href="https://www.patreon.com/duyet"><img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160"></a>
+**Support**
+
+<a href="https://s.duyet.net/r/patreon"><img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160"></a>
+
 
 # How to contribute
 1. Fork the project on Github. 
