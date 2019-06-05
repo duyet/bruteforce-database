@@ -19,6 +19,8 @@ A Password dictionaries.
 
 <img src="http://2.bp.blogspot.com/-DBFErnG-8AE/VhJ-z3Y-41I/AAAAAAAADgA/FGCt8naBMKs/s1600/mtyourmind.10001mb.com.png" />
 
+# Support
+<a href="https://www.patreon.com/bePatron?u=3270761" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
 
 # How to contribute
 1. Fork the project on Github. 
