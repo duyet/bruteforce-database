@@ -40,7 +40,7 @@ A Password dictionaries.
 
 # Contributers
 
-* Van-Duyet Le - [**@duyetdev**](https://github.com/duyetdev)
+* Van-Duyet Le - [**@duyet**](https://github.com/duyet)
 * Taufiq Sumadi - [**@taufiqsumadi**](https://github.com/taufiqsumadi)
 * San Sayidul Akdam Augusta - [**@sanAkdam**](https://github.com/sanAkdam)
 * Dani Vijay - [**@danivijay**](https://github.com/danivijay)
