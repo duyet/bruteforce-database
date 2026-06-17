@@ -33,12 +33,15 @@ class WordlistValidator:
         Validate a single wordlist file.
 
         Returns comprehensive metadata and validation results.
+        Uses streaming reads for large files to minimize memory.
         """
         if not filepath.exists():
             return {"error": "File does not exist"}
 
         result = {
-            "path": str(filepath.relative_to(self.root_dir)),
+            "path": str(filepath.relative_to(self.root_dir))
+                     if self.root_dir in filepath.parents
+                     else str(filepath),
             "size_bytes": filepath.stat().st_size,
             "valid": True,
             "errors": [],
@@ -46,34 +49,53 @@ class WordlistValidator:
         }
 
         try:
-            # Detect encoding
+            # Read raw bytes (needed once for hash + encoding detection)
             with open(filepath, 'rb') as f:
                 raw_data = f.read()
                 result["sha256"] = hashlib.sha256(raw_data).hexdigest()
 
-            # Try UTF-8 first
-            try:
-                content = raw_data.decode('utf-8')
-                result["encoding"] = "utf-8"
-            except UnicodeDecodeError:
+            # Detect encoding - try UTF-8 first, then latin-1, then system default
+            encoding = None
+            content = None
+            for enc in ('utf-8', 'latin-1', 'cp1252'):
                 try:
-                    content = raw_data.decode('latin-1')
-                    result["encoding"] = "latin-1"
-                    result["warnings"].append("Non-UTF-8 encoding detected")
-                except Exception as e:
-                    result["valid"] = False
-                    result["errors"].append(f"Encoding error: {e}")
-                    return result
+                    content = raw_data.decode(enc)
+                    encoding = enc
+                    break
+                except (UnicodeDecodeError, LookupError):
+                    continue
 
-            # Analyze content
+            if content is None:
+                result["valid"] = False
+                result["errors"].append("Unable to decode file with UTF-8, latin-1, or cp1252")
+                return result
+
+            result["encoding"] = encoding
+            if encoding != 'utf-8':
+                result["warnings"].append(f"Non-UTF-8 encoding detected ({encoding})")
+
+            # Check for binary content on raw bytes (fast, no line iteration)
+            null_bytes = raw_data.count(b'\x00')
+            control_chars = sum(
+                1 for b in raw_data if b < 0x20 and b not in (0x09, 0x0A, 0x0D)
+            )
+            null_ratio = null_bytes / len(raw_data) if raw_data else 0
+            control_ratio = control_chars / len(raw_data) if raw_data else 0
+
+            if null_ratio > 0.01:
+                result["warnings"].append(
+                    f"Binary content detected ({null_bytes} null bytes, "
+                    f"{null_ratio:.2%} of file)"
+                )
+
+            # Analyze content line by line
             lines = content.splitlines()
             result["total_lines"] = len(lines)
 
-            # Filter empty lines
             non_empty_lines = [line for line in lines if line.strip()]
             result["non_empty_lines"] = len(non_empty_lines)
 
-            # Check for duplicates
+            # Check for duplicates using set
             unique_entries = set(non_empty_lines)
             result["unique_entries"] = len(unique_entries)
 
@@ -89,9 +111,12 @@ class WordlistValidator:
                 result["max_length"] = max(lengths)
                 result["avg_length"] = sum(lengths) / len(lengths)
 
-            # Check for binary content
-            if any(ord(c) < 32 and c not in '\t\n\r' for line in lines[:100] for c in line):
-                result["warnings"].append("Possible binary content detected")
+            # Warn on suspicious control character ratio
+            if control_ratio > 0.001 and null_ratio <= 0.01:
+                result["warnings"].append(
+                    f"Unusual control characters detected ({control_chars} chars, "
+                    f"{control_ratio:.4%} of file)"
+                )
 
         except Exception as e:
             result["valid"] = False
@@ -100,28 +125,22 @@ class WordlistValidator:
         return result
 
     def find_wordlists(self) -> List[Path]:
-        """Find all wordlist files (*.txt, *.lst) in the repository."""
-        wordlists = []
-
-        # Skip certain directories
+        """Find all wordlist files (*.txt, *.lst) recursively, skipping .git and scripts."""
         skip_dirs = {'.git', 'node_modules', 'scripts', '__pycache__'}
-
-        for txt_file in self.root_dir.rglob('*.txt'):
-            if not any(skip in txt_file.parts for skip in skip_dirs):
-                wordlists.append(txt_file)
-
-        for lst_file in self.root_dir.rglob('*.lst'):
-            if not any(skip in lst_file.parts for skip in skip_dirs):
-                wordlists.append(lst_file)
-
+        wordlists = []
+        for ext in ('*.txt', '*.lst'):
+            for f in self.root_dir.rglob(ext):
+                if not any(skip in f.parts for skip in skip_dirs):
+                    wordlists.append(f)
         return sorted(wordlists)
 
     def validate_all(self) -> Dict:
         """Validate all wordlists and generate comprehensive report."""
         wordlists = self.find_wordlists()
+        today = __import__('datetime').date.today().isoformat()
 
         results = {
-            "validation_date": "2025-11-16",
+            "validation_date": today,
             "total_files": len(wordlists),
             "files": [],
             "summary": {
@@ -134,24 +153,28 @@ class WordlistValidator:
             }
         }
 
-        print(f"🔍 Validating {len(wordlists)} wordlist files...\n")
+        print(f"\nValidating {len(wordlists)} wordlist files...\n")
 
         for wordlist in wordlists:
-            print(f"  Checking {wordlist.name}...", end=" ")
+            label = str(wordlist.relative_to(self.root_dir))
+            print(f"  {label} ...", end=" ")
             file_result = self.validate_file(wordlist)
             results["files"].append(file_result)
 
-            if file_result["valid"]:
-                results["summary"]["valid_files"] += 1
-                print("✓")
-            else:
-                results["summary"]["invalid_files"] += 1
-                print("✗")
+            status = "OK" if file_result["valid"] else "FAIL"
+            print(f"[{status}]")
 
             results["summary"]["total_warnings"] += len(file_result.get("warnings", []))
             results["summary"]["total_size_bytes"] += file_result.get("size_bytes", 0)
             results["summary"]["total_entries"] += file_result.get("non_empty_lines", 0)
             results["summary"]["total_unique_entries"] += file_result.get("unique_entries", 0)
+
+            if file_result["valid"]:
+                results["summary"]["valid_files"] += 1
+            else:
+                results["summary"]["invalid_files"] += 1
+                for err in file_result.get("errors", []):
+                    print(f"    Error: {err}")
 
         return results
 
@@ -161,24 +184,21 @@ class WordlistValidator:
 
         results = self.validate_all()
 
-        # Pretty print summary
         summary = results["summary"]
-        print(f"\n📊 Validation Summary:")
-        print(f"  Total files: {results['total_files']}")
-        print(f"  Valid: {summary['valid_files']} ✓")
-        print(f"  Invalid: {summary['invalid_files']} ✗")
-        print(f"  Warnings: {summary['total_warnings']}")
-        print(f"  Total size: {summary['total_size_bytes'] / 1024 / 1024:.2f} MB")
-        print(f"  Total entries: {summary['total_entries']:,}")
-        print(f"  Unique entries: {summary['total_unique_entries']:,}")
+        print(f"\nValidation Summary:")
+        print(f"  Files:      {results['total_files']} total, "
+              f"{summary['valid_files']} valid, "
+              f"{summary['invalid_files']} invalid")
+        print(f"  Warnings:   {summary['total_warnings']}")
+        print(f"  Size:       {summary['total_size_bytes'] / 1024 / 1024:.2f} MB")
+        print(f"  Entries:    {summary['total_entries']:,}")
+        print(f"  Unique:     {summary['total_unique_entries']:,}")
 
-        # Save manifest
         with open(output_path, 'w') as f:
             json.dump(results, f, indent=2)
 
-        print(f"\n💾 Manifest saved to {output_path}")
+        print(f"\nManifest saved to {output_path}")
 
-        # Return exit code based on validation
         return 0 if summary['invalid_files'] == 0 else 1
 
 
@@ -187,13 +207,14 @@ def main():
     validator = WordlistValidator()
 
     if len(sys.argv) > 1 and sys.argv[1] == "--file":
-        # Validate single file
-        filepath = Path(sys.argv[2])
+        filepath = Path(sys.argv[2]).resolve()
+        if not filepath.exists():
+            print(f"Error: file not found: {filepath}")
+            sys.exit(1)
         result = validator.validate_file(filepath)
         print(json.dumps(result, indent=2))
-        sys.exit(0 if result["valid"] else 1)
+        sys.exit(0 if result.get("valid", False) else 1)
     else:
-        # Validate all and generate manifest
         sys.exit(validator.generate_manifest())
 
 

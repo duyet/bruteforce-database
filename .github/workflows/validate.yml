@@ -86,6 +86,31 @@ jobs:
           echo "⚠️  Large file detected: $line"
         done || echo "✓ All files within reasonable size limits"
 
+  analyze:
+    name: Wordlist Intelligence
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Run intelligence analysis
+      run: |
+        echo "📊 Running wordlist intelligence analysis..."
+        python3 scripts/analyze.py --report --report-output intelligence-report.json
+
+    - name: Upload intelligence report
+      uses: actions/upload-artifact@v4
+      with:
+        name: intelligence-report
+        path: intelligence-report.json
+        retention-days: 30
+
   integrity:
     name: Integrity Verification
     runs-on: ubuntu-latest
