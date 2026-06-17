@@ -286,8 +286,51 @@ python3 scripts/validate.py --file passwords.txt
 # Deduplicate wordlists
 python3 scripts/deduplicate.py passwords.txt
 
-# Deduplicate all
+# Deduplicate all wordlists (including forced-browsing/ subdirectories)
 python3 scripts/deduplicate.py --all
+
+# Case-insensitive deduplication (treat 'Password' and 'password' as same)
+python3 scripts/deduplicate.py --all --case-insensitive
+
+# Sort entries while deduplicating
+python3 scripts/deduplicate.py --all --sort
+```
+
+### Intelligence & Analysis Tool
+
+The `scripts/analyze.py` tool provides deep insights into wordlist composition, cross-referencing, and smart merging.
+
+**Character composition analysis** — Understand the makeup of a password list:
+```bash
+# Analyze character class breakdown (upper, lower, digit, special)
+python3 scripts/analyze.py --composition 1000000-password-seclists.txt
+
+# Compare multiple files
+python3 scripts/analyze.py --composition cain.txt 8-more-passwords.txt
+```
+
+**Cross-reference** — Find overlapping entries between wordlists:
+```bash
+# See which passwords appear in multiple sources
+python3 scripts/analyze.py --cross-reference 7-more-passwords.txt 8-more-passwords.txt
+
+# Save detailed pairwise Jaccard similarity to JSON
+python3 scripts/analyze.py --cross-reference file1.txt file2.txt --output xref.json
+```
+
+**Smart merging** — Combine wordlists with frequency tracking:
+```bash
+# Merge and deduplicate, sorted alphabetically
+python3 scripts/analyze.py --merge --output combined.txt list1.txt list2.txt
+
+# Rank by frequency (entries in more sources appear first)
+python3 scripts/analyze.py --merge --rank-by-frequency --output merged.txt *.txt
+```
+
+**Full repository intelligence report:**
+```bash
+# Comprehensive analysis of all wordlists in the repo
+python3 scripts/analyze.py --report --report-output report.json
 ```
 
 ### CI/CD Pipeline
